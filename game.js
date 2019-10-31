@@ -18,6 +18,9 @@ let snake = [
   { x: 16, y: 15, dir: 'east' }
 ]
 
+// The direction of movement in the next frame (set directly by user input)
+let nextDir = 'east'
+
 // Draw the full snake once at the start of the game
 drawFullSnake(snake)
 
@@ -32,6 +35,10 @@ const gameOver = () => {
 const update = () => {
   // Don't do anything while the game is paused
   if (paused) return
+
+  const head = snake[snake.length - 1]
+  // Set the head direction based on user input
+  head.dir = nextDir
   // Move each unit in its respective direction
   for (let i = 0; i < snake.length; i++) {
     if (snake[i].dir === 'north')
@@ -48,7 +55,6 @@ const update = () => {
     }
   }
   // Check if there will be a wall collision
-  const head = snake[snake.length - 1]
   if (head.x >= 30 || head.x < 0 || head.y >= 30 || head.y < 0) {
     gameOver()
     return
@@ -77,22 +83,22 @@ document.addEventListener('keydown', event => {
   }
   if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'k') {
     if (snake[snake.length - 1].dir != 'south') {
-      snake[snake.length - 1].dir = 'north'
+      nextDir = 'north'
     }
   }
   if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'j') {
     if (snake[snake.length - 1].dir != 'north') {
-      snake[snake.length - 1].dir = 'south'
+      nextDir = 'south'
     }
   }
   if (event.key == 'ArrowRight' || event.key === 'd' || event.key === 'l') {
     if (snake[snake.length - 1].dir != 'west') {
-      snake[snake.length - 1].dir = 'east'
+      nextDir = 'east'
     }
   }
   if (event.key === 'ArrowLeft' || event.key === 'a' || event.key === 'h') {
     if (snake[snake.length - 1].dir != 'east') {
-      snake[snake.length - 1].dir = 'west'
+      nextDir = 'west'
     }
   }
 })
