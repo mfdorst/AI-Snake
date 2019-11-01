@@ -1,104 +1,82 @@
 "use strict"
 
-const canvas = document.querySelector('.canvas')
-const ctx = canvas.getContext('2d')
-canvas.width = 600
-canvas.height = 600
-let paused = true
-
-// This structure represents the snake as a series of units, each with a position and a direction
-// they are travelling in.
-// Each frame this structure will be updated, moving each unit in its respective direction, and then
-// updating each unit's direction to follow the unit in front of it. The head unit direction will be
-// set freely based on user input.
-let snake = [
-  { x: 13, y: 15, dir: 'east' },
-  { x: 14, y: 15, dir: 'east' },
-  { x: 15, y: 15, dir: 'east' },
-  { x: 16, y: 15, dir: 'east' }
-]
-
-// The direction of movement in the next frame (set directly by user input)
-let nextDir = 'east'
-
-// Draw the full snake once at the start of the game
-drawFullSnake(snake)
-
-const gameOver = () => {
-  paused = true
-  const message = document.getElementById('message')
-  message.textContent = 'Game Over'
-  message.style.display = 'block'
+function spawnFood(snake) {
+  function randomPoint() {
+    return {
+      x: Math.floor(Math.random() * 30),
+      y: Math.floor(Math.random() * 30)
+    }
+  }
+  outer: while (true) {
+    // Generate a random point
+    const food = randomPoint()
+    // If the point is somewhere inside the snake, generate a new point
+    for (const unit of snake) {
+      if (unit.x === food.x && unit.y === food.y) continue outer
+    }
+    return food
+  }
 }
 
 // Called once per frame
-const update = () => {
-  // Don't do anything while the game is paused
-  if (paused) return
+const update = (() => {
 
-  const head = snake[snake.length - 1]
-  // Set the head direction based on user input
-  head.dir = nextDir
-  // Move each unit in its respective direction
-  for (let i = 0; i < snake.length; i++) {
-    if (snake[i].dir === 'north')
-      snake[i].y++
-    if (snake[i].dir === 'east')
-      snake[i].x++
-    if (snake[i].dir === 'south')
-      snake[i].y--
-    if (snake[i].dir === 'west')
-      snake[i].x--
-    // Change unit direction to follow the next unit
-    if (i < snake.length - 1) {
-      snake[i].dir = snake[i + 1].dir
-    }
-  }
-  // Check if there will be a wall collision
-  if (head.x >= 30 || head.x < 0 || head.y >= 30 || head.y < 0) {
-    gameOver()
-    return
-  }
-  // Redraw snake to reflect updates
-  drawUpdatedSnake(snake)
-}
+  let ateFood = false
 
-let gameStarted = false
+  return (ctx, snake, food, nextDir) => {
 
-const startGame = () => {
-  document.getElementById('message').style.display = 'none'
-  // Update loop - called once every 150 milliseconds
-  window.setInterval(() => {
-    update()
-  }, 100)
-  paused = false
-  gameStarted = true
-}
+    function move(unit) {
+      const x = unit.x
+      const y = unit.y
+      const dir = unit.dir
+      if (dir === 'north') {
+        return { x, y: y + 1, dir }
+      }
+      if (dir === 'south') {
+        return { x, y: y - 1, dir }
+      }
+      if (dir === 'east') {
+        return { x: x + 1, y, dir }
+      }
+      if (dir === 'west') {
+        return { x: x - 1, y, dir }
+      }
+    }
 
-// Set the head unit's direction based on keyboard input (arrow keys)
-document.addEventListener('keydown', event => {
-  // Respond to "press any key to start"
-  if (!gameStarted) {
-    startGame()
-  }
-  if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'k') {
-    if (snake[snake.length - 1].dir != 'south') {
-      nextDir = 'north'
+    let head = snake[snake.length - 1]
+    // Set the head direction based on user input
+    head.dir = nextDir
+    if (ateFood) {
+      ateFood = false
+      head = move(head)
+      snake.push(head)
+    } else {
+      // Move each unit in its respective direction
+      for (let i = 0; i < snake.length; i++) {
+        snake[i] = move(snake[i])
+        // Change unit direction to follow the next unit
+        if (i < snake.length - 1) {
+          snake[i].dir = snake[i + 1].dir
+        }
+      }
     }
-  }
-  if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'j') {
-    if (snake[snake.length - 1].dir != 'north') {
-      nextDir = 'south'
+    // Check if there will be a wall collision
+    if (head.x >= 30 || head.x < 0 || head.y >= 30 || head.y < 0) {
+      // Game over
+      const message = document.getElementById('message')
+      message.textContent = 'Game Over'
+      message.style.display = 'block'
+      return true
     }
-  }
-  if (event.key == 'ArrowRight' || event.key === 'd' || event.key === 'l') {
-    if (snake[snake.length - 1].dir != 'west') {
-      nextDir = 'east'
+    // Check if there will be a food collision
+    if (head.x == food.x && head.y == food.y) {
+      ateFood = true
+      food = spawnFood(snake)
+      drawFood(ctx, food)
     }
+
+    // Redraw snake to reflect updates
+    drawUpdatedSnake(ctx, snake)
+    return false
   }
-  if (event.key === 'ArrowLeft' || event.key === 'a' || event.key === 'h') {
-    if (snake[snake.length - 1].dir != 'east') {
-      nextDir = 'west'
-    }
-  }
-})
+})()
