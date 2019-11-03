@@ -18,6 +18,12 @@ function spawnFood(snake) {
   }
 }
 
+function gameOver() {
+  const message = document.getElementById('message')
+    message.textContent = 'Game Over'
+    message.style.display = 'block'
+}
+
 /**
  * @param {any} ctx The graphical context
  * @param {[Unit]} snake The snake
@@ -61,12 +67,10 @@ function update(ctx, snake, food, nextDir, ateFood = false) {
       }
     }
   }
+  head = snake[snake.length - 1]
   // Check if there will be a wall collision
   if (head.x >= 30 || head.x < 0 || head.y >= 30 || head.y < 0) {
-    // Game over
-    const message = document.getElementById('message')
-    message.textContent = 'Game Over'
-    message.style.display = 'block'
+    gameOver()
     return { snake, food, nextDir, ateFood, paused: true }
   }
   // Check if there will be a food collision
@@ -74,6 +78,11 @@ function update(ctx, snake, food, nextDir, ateFood = false) {
     ateFood = true
     food = spawnFood(snake)
     drawFood(ctx, food)
+  }
+  // Check if there will be a snake body collision
+  if (snake.slice(0, -1).some(unit => head.x === unit.x && head.y === unit.y)) {
+    gameOver()
+    return { snake, food, nextDir, ateFood, paused: true }
   }
 
   // Redraw snake to reflect updates
