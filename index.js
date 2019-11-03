@@ -7,7 +7,7 @@ document.addEventListener('keydown', (() => {
     canvas.height = 600
     return ctx
   })()
-  
+
   let nextDir = 'east'
   let snake = [
     { x: 13, y: 15, dir: 'east' },
@@ -16,7 +16,7 @@ document.addEventListener('keydown', (() => {
     { x: 16, y: 15, dir: 'east' }
   ]
   let food = spawnFood(snake)
-  
+
   drawFood(ctx, food)
   drawFullSnake(ctx, snake)
 
@@ -28,11 +28,12 @@ document.addEventListener('keydown', (() => {
     if (!gameStarted) {
       // Start game
       paused = false
+      let ateFood = false
       document.getElementById('message').style.display = 'none'
       // Update loop - calls update() repeatedly while game is not paused
       window.setInterval(() => {
         if (!paused) {
-          paused = update(ctx, snake, food, nextDir)
+          ({ snake, food, nextDir, ateFood, paused } = update(ctx, snake, food, nextDir, ateFood))
         }
       }, 100)
 
