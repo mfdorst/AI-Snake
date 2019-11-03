@@ -7,12 +7,12 @@ function spawnFood(snake) {
       y: Math.floor(Math.random() * 30)
     }
   }
-  outer: while (true) {
-    // Generate a random point
+  while (true) {
     const food = randomPoint()
-    // If the point is somewhere inside the snake, generate a new point
-    for (const unit of snake) {
-      if (unit.x === food.x && unit.y === food.y) continue outer
+    
+    // If the food spawned inside of snake, go back and re-spawn
+    if (snake.any(unit => { return unit.x === food.x && unit.y === food.y })) {
+      continue
     }
     return food
   }
