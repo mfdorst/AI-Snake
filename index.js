@@ -8,7 +8,7 @@ document.addEventListener('keydown', (() => {
     return ctx
   })()
 
-  let nextDir = 'east'
+  let nextDirs = []
   let snake = [
     { x: 13, y: 15, dir: 'east' },
     { x: 14, y: 15, dir: 'east' },
@@ -33,31 +33,33 @@ document.addEventListener('keydown', (() => {
       // Update loop - calls update() repeatedly while game is not paused
       window.setInterval(() => {
         if (!paused) {
-          ({ snake, food, nextDir, ateFood, paused } = update(ctx, snake, food, nextDir, ateFood))
+          ({ snake, food, nextDir: nextDirs, ateFood, paused } = update(ctx, snake, food, nextDirs, ateFood))
         }
       }, 100)
 
       gameStarted = true
     }
-
+    function newestDir() {
+      return nextDirs.length > 0 ? nextDirs.last() : snake.last().dir
+    }
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'k') {
-      if (snake[snake.length - 1].dir != 'south') {
-        nextDir = 'north'
+      if (newestDir() != 'south') {
+        nextDirs.push('north')
       }
     }
     if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'j') {
-      if (snake[snake.length - 1].dir != 'north') {
-        nextDir = 'south'
+      if (newestDir() != 'north') {
+        nextDirs.push('south')
       }
     }
     if (event.key == 'ArrowRight' || event.key === 'd' || event.key === 'l') {
-      if (snake[snake.length - 1].dir != 'west') {
-        nextDir = 'east'
+      if (newestDir() != 'west') {
+        nextDirs.push('east')
       }
     }
     if (event.key === 'ArrowLeft' || event.key === 'a' || event.key === 'h') {
-      if (snake[snake.length - 1].dir != 'east') {
-        nextDir = 'west'
+      if (newestDir() != 'east') {
+        nextDirs.push('west')
       }
     }
   }

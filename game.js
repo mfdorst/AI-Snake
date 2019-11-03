@@ -28,11 +28,11 @@ function gameOver() {
  * @param {any} ctx The graphical context
  * @param {[Unit]} snake The snake
  * @param {Unit} food The food
- * @param {String} nextDir The next direction the snake should move in
+ * @param {[String]} nextDirs A list of queued direction changes
  * @param {boolean} ateFood Weather the snake ate food last frame
- * @returns {{snake: [Unit], food: Unit, nextDir: String, ateFood: boolean, paused: boolean}}
+ * @returns {{snake: [Unit], food: Unit, nextDirs: [String], ateFood: boolean, paused: boolean}}
  */
-function update(ctx, snake, food, nextDir, ateFood = false) {
+function update(ctx, snake, food, nextDirs, ateFood = false) {
   function move(unit) {
     const x = unit.x
     const y = unit.y
@@ -50,12 +50,15 @@ function update(ctx, snake, food, nextDir, ateFood = false) {
       return { x: x - 1, y, dir }
     }
   }
-  let head = snake[snake.length - 1]
+
   // Set the head direction based on user input
-  head.dir = nextDir
+  if (nextDirs.length > 0) {
+    snake[snake.length - 1].dir = nextDirs[0]
+    nextDirs = nextDirs.slice(1)
+  }
   if (ateFood) {
     ateFood = false
-    head = move(head)
+    const head = move(snake.last())
     snake.push(head)
   } else {
     // Move each unit in its respective direction
@@ -67,25 +70,23 @@ function update(ctx, snake, food, nextDir, ateFood = false) {
       }
     }
   }
-  head = snake[snake.length - 1]
   // Check if there will be a wall collision
-  if (head.x >= 30 || head.x < 0 || head.y >= 30 || head.y < 0) {
+  if (snake.last().x >= 30 || snake.last().x < 0 || snake.last().y >= 30 || snake.last().y < 0) {
     gameOver()
-    return { snake, food, nextDir, ateFood, paused: true }
+    return { snake, food, nextDir: nextDirs, ateFood, paused: true }
   }
   // Check if there will be a food collision
-  if (head.x == food.x && head.y == food.y) {
+  if (snake.last().x == food.x && snake.last().y == food.y) {
     ateFood = true
     food = spawnFood(snake)
     drawFood(ctx, food)
   }
   // Check if there will be a snake body collision
-  if (snake.slice(0, -1).some(unit => head.x === unit.x && head.y === unit.y)) {
+  if (snake.slice(0, -1).some(unit => snake.last().x === unit.x && snake.last().y === unit.y)) {
     gameOver()
-    return { snake, food, nextDir, ateFood, paused: true }
+    return { snake, food, nextDir: nextDirs, ateFood, paused: true }
   }
-
   // Redraw snake to reflect updates
   drawUpdatedSnake(ctx, snake)
-  return { snake, food, nextDir, ateFood, paused: false }
+  return { snake, food, nextDir: nextDirs, ateFood, paused: false }
 }
