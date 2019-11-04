@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html>
 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="index.css">
+
 <head>
-    <title>Snake Game</title>
+  <title>Snake Game</title>
 </head>
 
 <body>
-    <div id="canvas-div">
-        <canvas class="canvas"></canvas>
-            <div id="message-div">
-                <h2 id="message">Press any key to start</h2>
-            </div>
+  <div class="container">
+    <div class="row justify-content-center" id="score-div">
+      <h3 class="text-center">Score: 0</h2>
     </div>
+    <div class="row" id="canvas-div">
+      <canvas>
+    </div>
+    <div class="row justify-content-center" id="message-div">
+      <h2 id="message" class="text-center">Press any key to start</h2>>
+    </div>
+  </div>
 </body>
 <script type="text/javascript" src="array.js"></script>
 <script type="text/javascript" src="draw.js"></script>
 <script type="text/javascript" src="game.js"></script>
 <script type="text/javascript" src="index.js"></script>
-<link rel="stylesheet" type="text/css" href="index.css">
-
 </html>
