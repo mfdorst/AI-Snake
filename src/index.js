@@ -29,7 +29,7 @@ document.addEventListener('keydown', (() => {
       // Start game
       paused = false
       let ateFood = false
-      document.getElementById('message').style.display = 'none'
+      document.getElementById('message').textContent = ''
       // Update loop - calls update() repeatedly while game is not paused
       window.setInterval(() => {
         if (!paused) {

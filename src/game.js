@@ -18,12 +18,6 @@ function spawnFood(snake) {
   }
 }
 
-function gameOver() {
-  const message = document.getElementById('message')
-    message.textContent = 'Game Over'
-    message.style.display = 'block'
-}
-
 /**
  * @param {any} ctx The graphical context
  * @param {[Unit]} snake The snake
@@ -49,6 +43,14 @@ function update(ctx, snake, food, nextDirs, ateFood = false) {
     if (dir === 'west') {
       return { x: x - 1, y, dir }
     }
+  }
+  function gameOver() {
+    const message = document.getElementById('message')
+    message.textContent = 'Game Over'
+  }
+  function updateScore() {
+    const score = document.getElementById('score')
+    score.textContent = `Score: ${snake.length - 3}`
   }
 
   // Set the head direction based on user input
@@ -80,6 +82,7 @@ function update(ctx, snake, food, nextDirs, ateFood = false) {
     ateFood = true
     food = spawnFood(snake)
     drawFood(ctx, food)
+    updateScore()
   }
   // Check if there will be a snake body collision
   if (snake.slice(0, -1).some(unit => snake.last().x === unit.x && snake.last().y === unit.y)) {
