@@ -1,3 +1,11 @@
+$('#send-button').on('click', () => {
+  $.ajax({
+    url: 'send-data',
+    contentType: 'application/json',
+    success: response => console.log(response)
+  })
+})
+
 // Entry point. Sets initial state, and listens for keyboard input.
 document.addEventListener('keydown', (() => {
   const ctx = (() => {
