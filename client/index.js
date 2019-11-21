@@ -1,11 +1,3 @@
-$('#send-button').on('click', () => {
-  $.ajax({
-    url: 'send-data',
-    contentType: 'application/json',
-    success: response => console.log(response)
-  })
-})
-
 // Entry point. Sets initial state, and listens for keyboard input.
 document.addEventListener('keydown', (() => {
   const ctx = (() => {
@@ -23,6 +15,7 @@ document.addEventListener('keydown', (() => {
     { x: 15, y: 15, dir: 'east' },
     { x: 16, y: 15, dir: 'east' }
   ]
+  
   let food = spawnFood(snake)
 
   drawFood(ctx, food)
