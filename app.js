@@ -1,12 +1,12 @@
 const express = require('express')
 const app = express()
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 1001
 
 app.use(express.static('client'))
 
-app.get('/send-data', (req, res) => {
-  res.send('Success!')
+app.get('/', (req, res) => {
+  res.render('index.html')
 })
 
 app.listen(PORT, () => {
