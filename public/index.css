@@ -1,15 +1,20 @@
-
-html, body {
+html,
+body {
   background-color: #222;
 }
 
 canvas {
-    background-color: #111;
-    width: 600px;
-    height: 600px;
+  background-color: #111;
+  width: 600px;
+  height: 600px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: #ccc;
 }
 

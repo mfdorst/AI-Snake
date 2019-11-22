@@ -1,9 +1,9 @@
-"use strict"
+'use strict'
 
 const unitSize = 20
-const backgroundColor = "#111"
-const snakeColor = "#aaa"
-const foodColor = "#aaa"
+const backgroundColor = '#111'
+const snakeColor = '#aaa'
+const foodColor = '#aaa'
 
 // Draws an individual unit of the snake in the color specified
 function drawUnit(ctx, unit, color) {
@@ -20,7 +20,7 @@ function drawUpdatedSnake(ctx, snake) {
 }
 
 // Called only once at the beginning to draw the full snake body
-function drawFullSnake (ctx, snake) {
+function drawFullSnake(ctx, snake) {
   for (let i = 1; i < snake.length; i++) {
     drawUnit(ctx, snake[i], snakeColor)
   }

@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 
 function spawnFood(snake) {
   function randomPoint() {
@@ -11,7 +11,11 @@ function spawnFood(snake) {
     const food = randomPoint()
 
     // If the food spawned inside of snake, go back and re-spawn
-    if (snake.some(unit => { return unit.x === food.x && unit.y === food.y })) {
+    if (
+      snake.some(unit => {
+        return unit.x === food.x && unit.y === food.y
+      })
+    ) {
       continue
     }
     return food
