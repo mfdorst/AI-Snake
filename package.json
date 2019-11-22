@@ -4,10 +4,10 @@
   "description": "A game that learns to play itself",
   "main": "app.js",
   "scripts": {
+    "format": "prettier --write './**/*.{js,css,json,html,md}'",
     "pretest": "eslint --fix './**/*.js'",
-    "pretty": "prettier --write './**/*.{js,css,json,md}'",
     "start": "node app.js",
-    "test": "mocha"
+    "test": ""
   },
   "repository": {
     "type": "git",
