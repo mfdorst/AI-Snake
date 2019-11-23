@@ -22,9 +22,7 @@ const game = new Game(
 
       // Start the update loop
       window.setInterval(() => {
-        if (!game.paused) {
-          game.update()
-        }
+        game.update()
       }, 100)
     }
 
