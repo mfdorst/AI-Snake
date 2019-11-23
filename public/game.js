@@ -1,5 +1,3 @@
-'use strict'
-
 import { Snake } from './snake.js'
 import { spawnFood } from './food.js'
 import { drawUnit } from './draw.js'
