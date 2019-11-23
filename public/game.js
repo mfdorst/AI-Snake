@@ -4,6 +4,8 @@ import { Snake } from './snake.js'
 import { spawnFood } from './food.js'
 import { drawUnit } from './draw.js'
 
+const foodColor = '#a44'
+
 export class Game {
   constructor(ctx) {
     /**
@@ -24,7 +26,7 @@ export class Game {
     this.ctx = ctx
 
     this.snake.drawAll(ctx)
-    drawUnit(ctx, this.food, '#aaa')
+    drawUnit(ctx, this.food, foodColor)
   }
 
   update() {
@@ -33,7 +35,7 @@ export class Game {
     const eating = this.snake.willEat(this.food)
     if (eating) {
       this.food = spawnFood(this.snake)
-      drawUnit(this.ctx, this.food, '#aaa')
+      drawUnit(this.ctx, this.food, foodColor)
     }
     this.snake.move(eating)
 
