@@ -53,12 +53,18 @@ export class Snake {
     }
   }
 
+  /**
+   * @returns {String}
+   */
   latestDirection() {
     return this.queuedTurns.length > 0
       ? this.queuedTurns[this.queuedTurns.length - 1]
       : this.body[this.body.length - 1].dir
   }
 
+  /**
+   * @param {String} direction
+   */
   queueTurn(direction) {
     if (direction != Util.oppositeDirection(this.latestDirection())) {
       this.queuedTurns.push(direction)

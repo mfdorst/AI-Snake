@@ -11,9 +11,9 @@ const game = new Game(
   })()
 )
 
-console.log(game.snake)
 ;(() => {
   let gameStarted = false
+
   document.addEventListener('keydown', event => {
     // Run once, the first time a key is pressed
     if (!gameStarted) {

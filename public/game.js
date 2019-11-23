@@ -33,6 +33,7 @@ export class Game {
     const eating = this.snake.willEat(this.food)
     if (eating) {
       this.food = spawnFood(this.snake)
+      drawUnit(this.ctx, this.food, '#aaa')
     }
     this.snake.move(eating)
 
