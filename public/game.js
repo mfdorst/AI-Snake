@@ -40,6 +40,13 @@ export class Game {
       return
     }
 
+    // Check if there will be a snake collision
+    if (this.snake.body.slice(0, -1).some(unit => nextHead.x === unit.x && nextHead.y === unit.y)) {
+      gameOver()
+      this.paused = true
+      return
+    }
+
     const eating = this.snake.willEat(this.food)
     if (eating) {
       this.food = spawnFood(this.snake)
@@ -61,13 +68,3 @@ function updateScore(score) {
   const scoreView = document.getElementById('score')
   scoreView.textContent = `Score: ${score}`
 }
-
-//   // Check if there will be a snake body collision
-//   if (snake.slice(0, -1).some(unit => snake.last().x === unit.x && snake.last().y === unit.y)) {
-//     gameOver()
-//     return { snake, food, nextDir: nextDirs, ateFood, paused: true }
-//   }
-//   // Redraw snake to reflect updates
-//   drawUpdatedSnake(ctx, snake)
-//   return { snake, food, nextDir: nextDirs, ateFood, paused: false }
-// }
