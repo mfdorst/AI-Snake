@@ -49,7 +49,7 @@ export class Snake {
     // When the snake eats, the head moves forward but the tail stays in the same place.
     // We already moved the tail, but we saved its value before it was moved as `tail`.
     if (eating) {
-      this.body.push(tail)
+      this.body.unshift(tail)
     }
   }
 
@@ -84,8 +84,8 @@ export class Snake {
    * @returns {Unit} The next place head will be
    */
   nextHead() {
-    const { x, y, dir } = this.body[this.body.length - 1]
-    switch (dir) {
+    const { x, y } = this.body[this.body.length - 1]
+    switch (this.latestDirection()) {
       case 'north':
         return new Unit(x, y + 1, 'north')
       case 'south':
