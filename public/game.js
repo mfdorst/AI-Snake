@@ -38,7 +38,7 @@ export class Game {
     this.snake.move(eating)
 
     this.snake.drawUpdated(this.ctx)
-    updateScore(this.snake.length - 3)
+    updateScore(this.snake.body.length - 4)
   }
 }
 
