@@ -35,15 +35,13 @@ export class Game {
     // Check if there will be a collision
     const nextHead = this.snake.nextHead()
     if (nextHead.x >= 30 || nextHead.x < 0 || nextHead.y >= 30 || nextHead.y < 0) {
-      gameOver()
-      this.paused = true
+      this.gameOver()
       return
     }
 
     // Check if there will be a snake collision
     if (this.snake.body.slice(0, -1).some(unit => nextHead.x === unit.x && nextHead.y === unit.y)) {
-      gameOver()
-      this.paused = true
+      this.gameOver()
       return
     }
 
@@ -55,16 +53,17 @@ export class Game {
     this.snake.move(eating)
 
     this.snake.drawUpdated(this.ctx)
-    updateScore(this.snake.body.length - 4)
+    this.updateScore(this.snake.body.length - 4)
   }
-}
 
-function gameOver() {
-  const message = document.getElementById('message')
-  message.textContent = 'Game Over'
-}
+  gameOver() {
+    const message = document.getElementById('message')
+    message.textContent = 'Game Over'
+    this.paused = true
+  }
 
-function updateScore(score) {
-  const scoreView = document.getElementById('score')
-  scoreView.textContent = `Score: ${score}`
+  updateScore(score) {
+    const scoreView = document.getElementById('score')
+    scoreView.textContent = `Score: ${score}`
+  }
 }
