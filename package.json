@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/mfdorst/Snake#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "fastpriorityqueue": "^0.6.3"
   },
   "devDependencies": {
     "chai": "^4.2.0",
