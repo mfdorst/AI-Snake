@@ -2,7 +2,7 @@ import * as Util from './util.js'
 import { drawUnit } from './draw.js'
 import { Unit } from './unit.js'
 
-const color = '#aaa'
+const color = '#fff'
 
 export class Snake {
   constructor() {

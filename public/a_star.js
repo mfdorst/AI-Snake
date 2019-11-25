@@ -35,7 +35,7 @@ export function aStar(start, goal, grid, ctx) {
   let current = new Node(start.x, start.y, 0, hCost(start, goal))
 
   while (current.x != goal.x || current.y != goal.y) {
-    drawUnit(ctx, current, '#484')
+    drawUnit(ctx, current, '#4a4')
     // Check all nodes adjacent to current.
     // If the node has not been checked yet, add it to `unchecked`.
     // If the node has been checked, add it to `unchecked` if the new cost is lower than its
@@ -68,7 +68,7 @@ export function aStar(start, goal, grid, ctx) {
 
   // Retrace steps from goal to start
   while (current.x != start.x || current.y != start.y) {
-    drawUnit(ctx, current, '#fe1')
+    drawUnit(ctx, current, '#ee0')
     current = grid[current.x][current.y].previous
   }
 }
