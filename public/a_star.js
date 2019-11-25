@@ -16,14 +16,10 @@ export class Node {
   }
 }
 
-export class GridSquare {
-  /**
-   * @param {Boolean} traversable
-   */
-  constructor(traversable) {
-    this.traversable = traversable
-  }
-}
+/**
+ * @typedef {Object} GridSquare
+ * @property {Boolean} traversable
+ */
 
 /**
  *
