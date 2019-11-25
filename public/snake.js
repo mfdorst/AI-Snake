@@ -28,7 +28,7 @@ export class Snake {
   move(eating) {
     // Pop off the front of the queued turns list
     // Set the head direction to the popped value
-    const dir = this.queuedTurns.shift()
+    const dir = this.queuedTurns[0]
     if (dir) {
       this.body[this.body.length - 1].dir = dir
     }
@@ -43,6 +43,7 @@ export class Snake {
     }
     // Move the head in the direction it is facing
     this.body[this.body.length - 1] = this.nextHead()
+    this.queuedTurns.shift()
 
     // When the snake eats, the head moves forward but the tail stays in the same place.
     // We already moved the tail, but we saved its value before it was moved as `tail`.
@@ -58,6 +59,10 @@ export class Snake {
     return this.queuedTurns.length > 0
       ? this.queuedTurns[this.queuedTurns.length - 1]
       : this.body[this.body.length - 1].dir
+  }
+
+  nextDirection() {
+    return this.queuedTurns.length > 0 ? this.queuedTurns[0] : this.body[this.body.length - 1].dir
   }
 
   /**
@@ -83,7 +88,7 @@ export class Snake {
    */
   nextHead() {
     const { x, y } = this.body[this.body.length - 1]
-    switch (this.latestDirection()) {
+    switch (this.nextDirection()) {
       case 'north':
         return new Unit(x, y + 1, 'north')
       case 'south':
