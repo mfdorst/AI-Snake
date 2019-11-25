@@ -15,6 +15,11 @@ const game = new Game(
 )
 
 if (ai) {
+  document.addEventListener('keydown', event => {
+    if (event.key == ' ') {
+      game.paused = !game.paused
+    }
+  })
   window.setInterval(() => {
     game.update()
   }, 50)
@@ -44,6 +49,9 @@ if (ai) {
     }
     if (event.key === 'ArrowLeft' || event.key === 'a' || event.key === 'h') {
       game.snake.queueTurn('west')
+    }
+    if (event.key === ' ') {
+      game.paused = !game.paused
     }
   })
 }
