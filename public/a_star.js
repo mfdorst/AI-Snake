@@ -29,9 +29,13 @@ export class Node {
  * @param {*} ctx
  */
 export function aStar(start, goal, grid, ctx) {
-  const unchecked = new FastPriorityQueue((a, b) =>
-    a.fCost == b.fCost ? a.gCost < b.gCost : a.fCost < b.fCost
-  )
+  const unchecked = new FastPriorityQueue((a, b) => {
+    if (a.fCost == b.fCost) {
+      return a.gCost > b.gCost
+    } else {
+      return a.fCost < b.fCost
+    }
+  })
   let current = new Node(start.x, start.y, 0, hCost(start, goal))
 
   while (current.x != goal.x || current.y != goal.y) {
