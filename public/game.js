@@ -24,7 +24,7 @@ export class Game {
      */
     this.ctx = ctx
 
-    aStar(this.snake.body[this.snake.body.length - 1], this.food, makeGrid(), this.ctx)
+    aStar(this.snake.body[this.snake.body.length - 1], this.food, makeGrid(this.snake), this.ctx)
     drawUnit(ctx, this.food, foodColor)
     this.snake.drawAll(ctx)
   }
@@ -53,7 +53,7 @@ export class Game {
     this.snake.move(eating)
 
     this.ctx.clearRect(0, 0, 600, 600)
-    aStar(this.snake.body[this.snake.body.length - 1], this.food, makeGrid(), this.ctx)
+    aStar(this.snake.body[this.snake.body.length - 1], this.food, makeGrid(this.snake), this.ctx)
 
     drawUnit(this.ctx, this.food, foodColor)
     this.snake.drawAll(this.ctx)
@@ -72,8 +72,16 @@ export class Game {
   }
 }
 
-function makeGrid() {
-  return new Array(30)
+/**
+ * @param {Snake} snake
+ */
+function makeGrid(snake) {
+  const grid = new Array(30)
     .fill(null)
     .map(() => new Array(30).fill(null).map(() => ({ traversable: true })))
+
+  for (const { x, y } of snake.body) {
+    grid[x][y].traversable = false
+  }
+  return grid
 }
