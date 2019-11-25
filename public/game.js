@@ -24,13 +24,7 @@ export class Game {
      */
     this.ctx = ctx
 
-    function makeGrid() {
-      return new Array(30)
-        .fill(null)
-        .map(() => new Array(30).fill(null).map(() => ({ traversable: true })))
-    }
-
-    aStar(this.snake.nextHead(), this.food, makeGrid(), this.ctx)
+    aStar(this.snake.body[this.snake.body.length - 1], this.food, makeGrid(), this.ctx)
     drawUnit(ctx, this.food, foodColor)
     this.snake.drawAll(ctx)
   }
@@ -58,7 +52,11 @@ export class Game {
     }
     this.snake.move(eating)
 
-    this.snake.drawUpdated(this.ctx)
+    this.ctx.clearRect(0, 0, 600, 600)
+    aStar(this.snake.body[this.snake.body.length - 1], this.food, makeGrid(), this.ctx)
+
+    drawUnit(this.ctx, this.food, foodColor)
+    this.snake.drawAll(this.ctx)
     this.updateScore(this.snake.body.length - 4)
   }
 
@@ -72,4 +70,10 @@ export class Game {
     const scoreView = document.getElementById('score')
     scoreView.textContent = `Score: ${score}`
   }
+}
+
+function makeGrid() {
+  return new Array(30)
+    .fill(null)
+    .map(() => new Array(30).fill(null).map(() => ({ traversable: true })))
 }
