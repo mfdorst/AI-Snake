@@ -1,4 +1,5 @@
 import { Game } from './game.js'
+import { aStar } from './a_star.js'
 
 // Get the canvas graphics context, and start a new game
 const game = new Game(
@@ -11,6 +12,15 @@ const game = new Game(
   })()
 )
 
+function makeGrid() {
+  return new Array(30)
+    .fill(null)
+    .map(() => new Array(30).fill(null).map(() => ({ traversable: true })))
+}
+
+let grid = makeGrid()
+
+aStar(game.snake.nextHead(), game.food, grid, game.ctx)
 ;(() => {
   let gameStarted = false
 

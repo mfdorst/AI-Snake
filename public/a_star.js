@@ -1,4 +1,5 @@
-import FastPriorityQueue from './FastPriorityQueue.js'
+import { FastPriorityQueue } from './FastPriorityQueue.js'
+import { drawUnit } from './draw.js'
 
 export class Node {
   /**
@@ -10,7 +11,7 @@ export class Node {
   constructor(x, y, gCost, fCost) {
     this.x = x
     this.y = y
-    this.fCost = gCost
+    this.gCost = gCost
     this.fCost = fCost
   }
 }
@@ -27,35 +28,45 @@ export class GridSquare {
 /**
  *
  * @param {Node} start
- * @param {Node} end
+ * @param {Node} goal
  * @param {[[GridSquare]]} grid
+ * @param {*} ctx
  */
-export function aStar(start, end, grid) {
-  const unchecked = new FastPriorityQueue()
-  let current = start
-  while (current != end) {
-    // Check all nodes around current.
+export function aStar(start, goal, grid, ctx) {
+  const unchecked = new FastPriorityQueue((a, b) =>
+    a.fCost == b.fCost ? a.gCost < b.gCost : a.fCost < b.fCost
+  )
+  let current = new Node(start.x, start.y, 0, hCost(start, goal))
+
+  while (current.x != goal.x || current.y != goal.y) {
+    drawUnit(ctx, current, '#4a4')
+    // Check all nodes adjacent to current.
     // If the node has not been checked yet, add it to `unchecked`.
     // If the node has been checked, add it to `unchecked` if the new cost is lower than its
     // previous cost.
     // Do not check untraversable nodes.
-    for (let i = -1; i <= 1; ++i) {
-      for (let j = -1; j <= 1; ++j) {
-        if ((i != 0 || j != 0) && grid[i][j].traversable) {
-          // G cost is the number of steps it takes to get from the start node to a given node.
-          const gCost = current.gCost + 1
-          // F cost is the best lower-bound estimate for the cost of the path which passes through
-          // a given node. It is the sum of the G cost and H cost.
-          const fCost = hCost(grid[i][j]) + gCost
+    const checkAdjacent = (x, y) => {
+      if (x < 0 || x >= 30 || y < 0 || y >= 30) return
+      if (grid[x][y].traversable) {
+        drawUnit(ctx, { x, y }, '#44a')
+        // G cost is the number of steps it takes to get from the start node to a given node.
+        const gCost = current.gCost + 1
+        // F cost is the best lower-bound estimate for the cost of the path which passes through
+        // a given node. It is the sum of the G cost and H cost.
+        const fCost = hCost({ x, y }, goal) + gCost
 
-          if (!grid[i][j].fCost || grid[i][j].fCost > fCost) {
-            grid[i][j].gCost = gCost
-            grid[i][j].fCost = fCost
-            unchecked.push(new Node(i, j, gCost, fCost))
-          }
+        if (!grid[x][y].fCost || fCost < grid[x][y].fCost) {
+          grid[x][y].gCost = gCost
+          grid[x][y].fCost = fCost
+          unchecked.add(new Node(x, y, gCost, fCost))
         }
       }
     }
+    checkAdjacent(current.x - 1, current.y)
+    checkAdjacent(current.x + 1, current.y)
+    checkAdjacent(current.x, current.y - 1)
+    checkAdjacent(current.x, current.y + 1)
+    current = unchecked.poll()
   }
 }
 
