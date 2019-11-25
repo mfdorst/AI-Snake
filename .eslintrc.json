@@ -19,6 +19,7 @@
   "rules": {
     "no-unused-vars": "warn",
     "no-constant-condition": ["error", { "checkLoops": false }],
-    "strict": ["error", "global"]
+    "strict": ["error", "global"],
+    "no-empty": ["error", { "allowEmptyCatch": true }]
   }
 }

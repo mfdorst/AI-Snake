@@ -27,6 +27,7 @@ export class Node {
  * @param {Node} goal
  * @param {[[GridSquare]]} grid
  * @param {*} ctx
+ * @returns {String} The direction the snake should go to get to the food. E.g. 'north'.
  */
 export function aStar(start, goal, grid, ctx) {
   const unchecked = new FastPriorityQueue((a, b) => {
@@ -68,13 +69,32 @@ export function aStar(start, goal, grid, ctx) {
     checkAdjacent(current.x, current.y - 1)
     checkAdjacent(current.x, current.y + 1)
     current = unchecked.poll()
+    if (!current) {
+      throw new Error('Stuck - there is no path to the food')
+    }
   }
 
   // Retrace steps from goal to start
+  let previous
   while (current.x != start.x || current.y != start.y) {
     drawUnit(ctx, current, '#ee0')
+    previous = current
     current = grid[current.x][current.y].previous
   }
+  drawUnit(ctx, previous, '#f84')
+  if (previous.x > current.x) {
+    return 'east'
+  }
+  if (previous.x < current.x) {
+    return 'west'
+  }
+  if (previous.y > current.y) {
+    return 'north'
+  }
+  if (previous.y < current.y) {
+    return 'south'
+  }
+  throw new Error("Shouldn't get here, there's something wrong.")
 }
 
 /**

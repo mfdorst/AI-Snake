@@ -1,5 +1,6 @@
 import { Game } from './game.js'
-import { aStar } from './a_star.js'
+
+const ai = true
 
 // Get the canvas graphics context, and start a new game
 const game = new Game(
@@ -9,10 +10,15 @@ const game = new Game(
     canvas.width = 600
     canvas.height = 600
     return ctx
-  })()
+  })(),
+  ai
 )
 
-;(() => {
+if (ai) {
+  window.setInterval(() => {
+    game.update()
+  }, 50)
+} else {
   let gameStarted = false
 
   document.addEventListener('keydown', event => {
@@ -40,4 +46,4 @@ const game = new Game(
       game.snake.queueTurn('west')
     }
   })
-})()
+}

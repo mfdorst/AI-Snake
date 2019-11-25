@@ -2,29 +2,35 @@ import { Snake } from './snake.js'
 import { spawnFood } from './food.js'
 import { drawUnit } from './draw.js'
 import { aStar } from './a_star.js'
+import { FillStrategy } from './fill_strategy.js'
 
 const foodColor = '#a44'
 
 export class Game {
-  constructor(ctx) {
-    /**
-     * @type {Snake}
-     */
+  /**
+   *
+   * @param {*} ctx
+   * @param {Boolean} ai Specifies whether a human or an AI is playing the game.
+   */
+  constructor(ctx, ai) {
     this.snake = new Snake()
-    /**
-     * @type {Food}
-     */
     this.food = spawnFood(this.snake)
-    /**
-     * @type {Boolean}
-     */
     this.paused = false
-    /**
-     * The canvas drawing context the game is rendered on
-     */
     this.ctx = ctx
+    this.ai = ai
+    this.fillStrategy = null
 
-    aStar(this.snake.body[this.snake.body.length - 1], this.food, makeGrid(this.snake), this.ctx)
+    try {
+      const bestHeading = aStar(
+        this.snake.body[this.snake.body.length - 1],
+        this.food,
+        makeGrid(this.snake),
+        this.ctx
+      )
+      if (this.ai) {
+        this.snake.queueTurn(bestHeading)
+      }
+    } catch (ignore) {}
     drawUnit(ctx, this.food, foodColor)
     this.snake.drawAll(ctx)
   }
@@ -53,7 +59,27 @@ export class Game {
     this.snake.move(eating)
 
     this.ctx.clearRect(0, 0, 600, 600)
-    aStar(this.snake.body[this.snake.body.length - 1], this.food, makeGrid(this.snake), this.ctx)
+    try {
+      const bestHeading = aStar(
+        this.snake.body[this.snake.body.length - 1],
+        this.food,
+        makeGrid(this.snake),
+        this.ctx
+      )
+      if (this.ai) {
+        this.snake.queueTurn(bestHeading)
+        this.fillStrategy = null
+      }
+    } catch (e) {
+      drawUnit(this.ctx, this.food, foodColor)
+      this.snake.drawAll(this.ctx)
+      if (this.ai) {
+        if (!this.fillStrategy) {
+          this.fillStrategy = new FillStrategy()
+        }
+        this.fillStrategy.nextDirection(this.snake, makeGrid(this.snake))
+      }
+    }
 
     drawUnit(this.ctx, this.food, foodColor)
     this.snake.drawAll(this.ctx)
