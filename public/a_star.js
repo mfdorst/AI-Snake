@@ -44,7 +44,6 @@ export function aStar(start, goal, grid, ctx) {
     const checkAdjacent = (x, y) => {
       if (x < 0 || x >= 30 || y < 0 || y >= 30) return
       if (grid[x][y].traversable) {
-        drawUnit(ctx, { x, y }, '#44a')
         // G cost is the number of steps it takes to get from the start node to a given node.
         const gCost = current.gCost + 1
         // F cost is the best lower-bound estimate for the cost of the path which passes through
@@ -55,6 +54,7 @@ export function aStar(start, goal, grid, ctx) {
           grid[x][y].gCost = gCost
           grid[x][y].fCost = fCost
           unchecked.add(new Node(x, y, gCost, fCost))
+          drawUnit(ctx, { x, y }, '#44a')
         }
       }
     }

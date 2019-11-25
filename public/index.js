@@ -12,15 +12,6 @@ const game = new Game(
   })()
 )
 
-function makeGrid() {
-  return new Array(30)
-    .fill(null)
-    .map(() => new Array(30).fill(null).map(() => ({ traversable: true })))
-}
-
-let grid = makeGrid()
-
-aStar(game.snake.nextHead(), game.food, grid, game.ctx)
 ;(() => {
   let gameStarted = false
 

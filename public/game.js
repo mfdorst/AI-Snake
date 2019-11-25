@@ -1,6 +1,7 @@
 import { Snake } from './snake.js'
 import { spawnFood } from './food.js'
 import { drawUnit } from './draw.js'
+import { aStar } from './a_star.js'
 
 const foodColor = '#a44'
 
@@ -23,8 +24,15 @@ export class Game {
      */
     this.ctx = ctx
 
-    this.snake.drawAll(ctx)
+    function makeGrid() {
+      return new Array(30)
+        .fill(null)
+        .map(() => new Array(30).fill(null).map(() => ({ traversable: true })))
+    }
+
+    aStar(this.snake.nextHead(), this.food, makeGrid(), this.ctx)
     drawUnit(ctx, this.food, foodColor)
+    this.snake.drawAll(ctx)
   }
 
   update() {
