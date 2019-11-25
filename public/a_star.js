@@ -53,6 +53,7 @@ export function aStar(start, goal, grid, ctx) {
         if (!grid[x][y].fCost || fCost < grid[x][y].fCost) {
           grid[x][y].gCost = gCost
           grid[x][y].fCost = fCost
+          grid[x][y].previous = current
           unchecked.add(new Node(x, y, gCost, fCost))
           drawUnit(ctx, { x, y }, '#44a')
         }
@@ -63,6 +64,12 @@ export function aStar(start, goal, grid, ctx) {
     checkAdjacent(current.x, current.y - 1)
     checkAdjacent(current.x, current.y + 1)
     current = unchecked.poll()
+  }
+
+  // Retrace steps from goal to start
+  while (current.x != start.x || current.y != start.y) {
+    drawUnit(ctx, current, '#fe1')
+    current = grid[current.x][current.y].previous
   }
 }
 
