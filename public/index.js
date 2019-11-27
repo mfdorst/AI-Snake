@@ -22,7 +22,7 @@ if (ai) {
   })
   window.setInterval(() => {
     game.update()
-  }, 50)
+  }, 25)
 } else {
   let gameStarted = false
 

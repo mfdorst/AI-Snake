@@ -1,5 +1,5 @@
 import { Unit } from './unit.js'
-import { drawUnit } from './draw.js'
+import { drawUnit, boardSize } from './draw.js'
 
 export class FillStrategy {
   constructor() {
@@ -24,7 +24,7 @@ export class FillStrategy {
    */
   nextDirection(snake, grid, ctx) {
     const { x, y, dir } = snake.body[snake.body.length - 1]
-    if (x >= 0 && x < 30 && y >= 0 && y < 30 && grid[x][y].traversable) {
+    if (x >= 0 && x < boardSize && y >= 0 && y < boardSize && grid[x][y].traversable) {
       return dir
     } else {
       // Figure out which way to turn
@@ -50,9 +50,9 @@ export class FillStrategy {
       const checkSide = side => {
         if (
           side.x < 0 ||
-          side.x >= 30 ||
+          side.x >= boardSize ||
           side.y < 0 ||
-          side.y >= 30 ||
+          side.y >= boardSize ||
           !grid[side.x][side.y].traversable
         )
           return 0
@@ -66,7 +66,7 @@ export class FillStrategy {
           const checkAdjacent = (x, y) => {
             // If the node has not been checked yet, add it to `unchecked`.
             // Do not check untraversable nodes.
-            if (x < 0 || x >= 30 || y < 0 || y >= 30) return
+            if (x < 0 || x >= boardSize || y < 0 || y >= boardSize) return
             if (grid[x][y].traversable) {
               unchecked.push(new Unit(x, y))
               drawUnit(ctx, { x, y }, '#f84')

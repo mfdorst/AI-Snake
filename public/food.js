@@ -1,4 +1,5 @@
 import { Unit } from './unit.js'
+import { boardSize } from './draw.js'
 
 /**
  * Spawn a food somewhere on screen which does not intersect with `snake`
@@ -6,7 +7,7 @@ import { Unit } from './unit.js'
  */
 export function spawnFood(snake) {
   function randomPoint() {
-    return new Unit(Math.floor(Math.random() * 30), Math.floor(Math.random() * 30))
+    return new Unit(Math.floor(Math.random() * boardSize), Math.floor(Math.random() * boardSize))
   }
   let x, y
   do {

@@ -1,4 +1,5 @@
-const unitSize = 20
+export const boardSize = 50
+export const unitSize = 600 / boardSize
 
 /**
  * @param {*} ctx
@@ -7,5 +8,5 @@ const unitSize = 20
  */
 export function drawUnit(ctx, unit, color) {
   ctx.fillStyle = color
-  ctx.fillRect(unit.x * unitSize, (29 - unit.y) * unitSize, unitSize, unitSize)
+  ctx.fillRect(unit.x * unitSize, (boardSize - 1 - unit.y) * unitSize, unitSize, unitSize)
 }

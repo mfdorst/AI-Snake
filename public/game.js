@@ -1,6 +1,6 @@
 import { Snake } from './snake.js'
 import { spawnFood } from './food.js'
-import { drawUnit } from './draw.js'
+import { drawUnit, boardSize, unitSize } from './draw.js'
 import { aStar } from './a_star.js'
 import { FillStrategy } from './fill_strategy.js'
 
@@ -40,7 +40,7 @@ export class Game {
 
     // Check if there will be a collision
     const nextHead = this.snake.nextHead()
-    if (nextHead.x >= 30 || nextHead.x < 0 || nextHead.y >= 30 || nextHead.y < 0) {
+    if (nextHead.x >= boardSize || nextHead.x < 0 || nextHead.y >= boardSize || nextHead.y < 0) {
       this.gameOver()
       return
     }
@@ -102,9 +102,9 @@ export class Game {
  * @param {Snake} snake
  */
 function makeGrid(snake) {
-  const grid = new Array(30)
+  const grid = new Array(boardSize)
     .fill(null)
-    .map(() => new Array(30).fill(null).map(() => ({ traversable: true })))
+    .map(() => new Array(boardSize).fill(null).map(() => ({ traversable: true })))
 
   for (const { x, y } of snake.body) {
     grid[x][y].traversable = false

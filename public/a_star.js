@@ -1,5 +1,5 @@
 import { FastPriorityQueue } from './FastPriorityQueue.js'
-import { drawUnit } from './draw.js'
+import { drawUnit, boardSize } from './draw.js'
 
 export class Node {
   /**
@@ -47,7 +47,7 @@ export function aStar(start, goal, grid, ctx) {
     // previous cost.
     // Do not check untraversable nodes.
     const checkAdjacent = (x, y) => {
-      if (x < 0 || x >= 30 || y < 0 || y >= 30) return
+      if (x < 0 || x >= boardSize || y < 0 || y >= boardSize) return
       if (grid[x][y].traversable) {
         // G cost is the number of steps it takes to get from the start node to a given node.
         const gCost = current.gCost + 1
