@@ -18,6 +18,7 @@ export class Game {
     this.paused = false
     this.ctx = ctx
     this.ai = ai
+    this.showPathfinding = false
     this.fillStrategy = null
 
     try {
@@ -25,7 +26,8 @@ export class Game {
         this.snake.body[this.snake.body.length - 1],
         this.food,
         makeGrid(this.snake),
-        this.ctx
+        this.ctx,
+        this.showPathfinding
       )
       if (this.ai) {
         this.snake.queueTurn(bestHeading)
@@ -64,7 +66,8 @@ export class Game {
         this.snake.body[this.snake.body.length - 1],
         this.food,
         makeGrid(this.snake),
-        this.ctx
+        this.ctx,
+        this.showPathfinding
       )
       if (this.ai) {
         this.snake.queueTurn(bestHeading)

@@ -14,6 +14,12 @@ const game = new Game(
   ai
 )
 
+document.getElementById('toggle-pathfinding').addEventListener('click', () => {
+  game.showPathfinding = !game.showPathfinding
+  const showOrHide = game.showPathfinding ? 'Hide' : 'Show'
+  document.getElementById('toggle-pathfinding').textContent = showOrHide + ' pathfinding'
+})
+
 if (ai) {
   document.addEventListener('keydown', event => {
     if (event.key == ' ') {
