@@ -1,3 +1,5 @@
+import { boardSize } from './draw.js'
+
 export class FillStrategy {
   constructor() {
     this.rightTurnNext = true
@@ -22,7 +24,7 @@ export class FillStrategy {
   nextDirection(snake, grid) {
     let nextTurns
     const dir = snake.body[snake.body.length - 1].dir
-    if (this.rightTurnNext) {
+    if (canTurnRight(snake, grid)) {
       switch (dir) {
         case 'north':
           nextTurns = ['east', 'south']
@@ -59,7 +61,7 @@ export class FillStrategy {
     }
 
     const { x, y } = snake.nextHead()
-    if (x >= 0 && x < 30 && y >= 0 && y < 30 && grid[x][y].traversable) {
+    if (x >= 0 && x < boardSize && y >= 0 && y < boardSize && grid[x][y].traversable) {
       return dir
     } else {
       this.rightTurnNext = !this.rightTurnNext
@@ -67,4 +69,13 @@ export class FillStrategy {
       snake.queueTurn(nextTurns[1])
     }
   }
+}
+
+function canTurnRight(snake, grid) {
+  const { x, y, dir } = snake.body[snake.body.length - 1]
+  const nextHead = {
+    x: dir === 'north' ? x + 1 : dir === 'south' ? x - 1 : x,
+    y: dir === 'west' ? y + 1 : dir === 'east' ? y - 1 : y
+  }
+  return grid[nextHead.x][nextHead.y].traversable
 }

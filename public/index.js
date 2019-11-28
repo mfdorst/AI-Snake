@@ -1,7 +1,5 @@
 import { Game } from './game.js'
 
-const ai = true
-
 // Get the canvas graphics context, and start a new game
 const game = new Game(
   (() => {
@@ -10,40 +8,28 @@ const game = new Game(
     canvas.width = 600
     canvas.height = 600
     return ctx
-  })(),
-  ai
+  })()
 )
 
-document.getElementById('toggle-pathfinding').addEventListener('click', () => {
+const togglePathfindingButton = document.getElementById('toggle-pathfinding')
+togglePathfindingButton.addEventListener('click', () => {
+  togglePathfindingButton.blur()
   game.showPathfinding = !game.showPathfinding
   const showOrHide = game.showPathfinding ? 'Hide' : 'Show'
-  document.getElementById('toggle-pathfinding').textContent = showOrHide + ' pathfinding'
+  togglePathfindingButton.textContent = showOrHide + ' pathfinding'
 })
 
-if (ai) {
-  document.addEventListener('keydown', event => {
-    if (event.key == ' ') {
-      game.paused = !game.paused
-    }
-  })
-  window.setInterval(() => {
-    game.update()
-  }, 25)
-} else {
-  let gameStarted = false
+let gameStarted = false
 
-  document.addEventListener('keydown', event => {
-    // Run once, the first time a key is pressed
-    if (!gameStarted) {
-      gameStarted = true
-      document.getElementById('message').textContent = ''
-
-      // Start the update loop
-      window.setInterval(() => {
-        game.update()
-      }, 100)
-    }
-
+document.addEventListener('keydown', event => {
+  if (!gameStarted) {
+    gameStarted = true
+    document.getElementById('message').textContent = ''
+  }
+  if (event.key === ' ') {
+    game.paused = !game.paused
+  }
+  if (!game.ai) {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'k') {
       game.snake.queueTurn('north')
     }
@@ -56,8 +42,22 @@ if (ai) {
     if (event.key === 'ArrowLeft' || event.key === 'a' || event.key === 'h') {
       game.snake.queueTurn('west')
     }
-    if (event.key === ' ') {
-      game.paused = !game.paused
-    }
-  })
-}
+  }
+})
+
+let updateTimer = window.setInterval(() => game.update(), 100)
+
+const toggleAIButton = document.getElementById('toggle-ai')
+
+toggleAIButton.addEventListener('click', () => {
+  game.ai = !game.ai
+  toggleAIButton.blur()
+  window.clearInterval(updateTimer)
+  if (game.ai) {
+    updateTimer = window.setInterval(() => game.update(), 25)
+    toggleAIButton.textContent = 'Human'
+  } else {
+    updateTimer = window.setInterval(() => game.update(), 100)
+    toggleAIButton.textContent = 'AI'
+  }
+})

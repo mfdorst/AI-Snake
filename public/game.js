@@ -10,14 +10,13 @@ export class Game {
   /**
    *
    * @param {*} ctx
-   * @param {Boolean} ai Specifies whether a human or an AI is playing the game.
    */
-  constructor(ctx, ai) {
+  constructor(ctx) {
     this.snake = new Snake()
     this.food = spawnFood(this.snake)
-    this.paused = false
+    this.paused = true
     this.ctx = ctx
-    this.ai = ai
+    this.ai = false
     this.showPathfinding = false
     this.fillStrategy = null
 
