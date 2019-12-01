@@ -61,3 +61,15 @@ toggleAIButton.addEventListener('click', () => {
     toggleAIButton.textContent = 'AI'
   }
 })
+
+const togglePlayPauseButton = document.getElementById('toggle-play-pause')
+
+togglePlayPauseButton.addEventListener('click', () => {
+  game.paused = !game.paused
+  togglePlayPauseButton.blur()
+  if (game.paused) {
+    togglePlayPauseButton.textContent = 'Play'
+  } else {
+    togglePlayPauseButton.textContent = 'Pause'
+  }
+})
