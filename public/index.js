@@ -19,6 +19,22 @@ togglePathfindingButton.addEventListener('click', () => {
   togglePathfindingButton.textContent = showOrHide + ' pathfinding'
 })
 
+const togglePlayPauseButton = document.getElementById('toggle-play-pause')
+
+function togglePlayPause() {
+  game.paused = !game.paused
+  if (game.paused) {
+    togglePlayPauseButton.textContent = 'Play'
+  } else {
+    togglePlayPauseButton.textContent = 'Pause'
+  }
+}
+
+togglePlayPauseButton.addEventListener('click', () => {
+  togglePlayPauseButton.blur()
+  togglePlayPause()
+})
+
 let gameStarted = false
 
 document.addEventListener('keydown', event => {
@@ -27,7 +43,7 @@ document.addEventListener('keydown', event => {
     document.getElementById('message').textContent = ''
   }
   if (event.key === ' ') {
-    game.paused = !game.paused
+    togglePlayPause()
   }
   if (!game.ai) {
     if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'k') {
@@ -59,17 +75,5 @@ toggleAIButton.addEventListener('click', () => {
   } else {
     updateTimer = window.setInterval(() => game.update(), 100)
     toggleAIButton.textContent = 'AI'
-  }
-})
-
-const togglePlayPauseButton = document.getElementById('toggle-play-pause')
-
-togglePlayPauseButton.addEventListener('click', () => {
-  game.paused = !game.paused
-  togglePlayPauseButton.blur()
-  if (game.paused) {
-    togglePlayPauseButton.textContent = 'Play'
-  } else {
-    togglePlayPauseButton.textContent = 'Pause'
   }
 })
