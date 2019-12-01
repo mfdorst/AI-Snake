@@ -1,8 +1,8 @@
 import { Snake } from './snake.js'
 import { spawnFood } from './food.js'
-import { drawUnit, boardSize, unitSize } from './draw.js'
-import { aStar } from './a_star.js'
-import { FillStrategy } from './fill_strategy.js'
+import { drawUnit, boardSize } from './draw.js'
+import { aStar } from './a-star.js'
+import { TryNotToDieStrategy } from './try-not-to-die.js'
 
 const foodColor = '#a44'
 
@@ -18,7 +18,7 @@ export class Game {
     this.ctx = ctx
     this.ai = false
     this.showPathfinding = false
-    this.fillStrategy = null
+    this.tryNotToDieStrategy = null
 
     try {
       const bestHeading = aStar(
@@ -70,16 +70,16 @@ export class Game {
       )
       if (this.ai) {
         this.snake.queueTurn(bestHeading)
-        this.fillStrategy = null
+        this.tryNotToDieStrategy = null
       }
     } catch (e) {
       drawUnit(this.ctx, this.food, foodColor)
       this.snake.drawAll(this.ctx)
       if (this.ai) {
-        if (!this.fillStrategy) {
-          this.fillStrategy = new FillStrategy()
+        if (!this.tryNotToDieStrategy) {
+          this.tryNotToDieStrategy = new TryNotToDieStrategy()
         }
-        this.fillStrategy.nextDirection(this.snake, makeGrid(this.snake))
+        this.tryNotToDieStrategy.nextDirection(this.snake, makeGrid(this.snake))
       }
     }
 

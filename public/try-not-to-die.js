@@ -1,6 +1,6 @@
 import { boardSize } from './draw.js'
 
-export class FillStrategy {
+export class TryNotToDieStrategy {
   constructor() {
     this.rightTurnNext = true
   }

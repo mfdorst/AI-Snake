@@ -1,4 +1,4 @@
-import { FastPriorityQueue } from './FastPriorityQueue.js'
+import { FastPriorityQueue } from './fast-priority-queue.js'
 import { drawUnit, boardSize } from './draw.js'
 
 export class Node {
