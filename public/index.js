@@ -12,68 +12,76 @@ const game = new Game(
 )
 
 const togglePathfindingButton = document.getElementById('toggle-pathfinding')
-togglePathfindingButton.addEventListener('click', () => {
-  togglePathfindingButton.blur()
-  game.showPathfinding = !game.showPathfinding
-  const showOrHide = game.showPathfinding ? 'Hide' : 'Show'
-  togglePathfindingButton.textContent = showOrHide + ' pathfinding'
-})
-
 const togglePlayPauseButton = document.getElementById('toggle-play-pause')
+const toggleAIButton = document.getElementById('toggle-ai')
 
-function togglePlayPause() {
-  game.paused = !game.paused
-  if (game.paused) {
+function setPathfinding(showPathfinding) {
+  game.showPathfinding = showPathfinding
+  const showOrHide = showPathfinding ? 'Hide' : 'Show'
+  togglePathfindingButton.textContent = showOrHide + ' pathfinding'
+}
+
+function setPaused(paused) {
+  game.paused = paused
+  if (paused) {
     togglePlayPauseButton.textContent = 'Play'
   } else {
     togglePlayPauseButton.textContent = 'Pause'
   }
 }
 
-togglePlayPauseButton.addEventListener('click', () => {
-  togglePlayPauseButton.blur()
-  togglePlayPause()
-})
+let updateTimer
 
-let gameStarted = false
-
-document.addEventListener('keydown', event => {
-  if (!gameStarted) {
-    gameStarted = true
-    document.getElementById('message').textContent = ''
-  }
-  if (event.key === ' ') {
-    togglePlayPause()
-  }
-  if (!game.ai) {
-    if (event.key === 'ArrowUp' || event.key === 'w' || event.key === 'k') {
-      game.snake.queueTurn('north')
-    }
-    if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'j') {
-      game.snake.queueTurn('south')
-    }
-    if (event.key == 'ArrowRight' || event.key === 'd' || event.key === 'l') {
-      game.snake.queueTurn('east')
-    }
-    if (event.key === 'ArrowLeft' || event.key === 'a' || event.key === 'h') {
-      game.snake.queueTurn('west')
-    }
-  }
-})
-
-let updateTimer = window.setInterval(() => game.update(), 100)
-
-const toggleAIButton = document.getElementById('toggle-ai')
-
-toggleAIButton.addEventListener('click', () => {
-  game.ai = !game.ai
-  toggleAIButton.blur()
+function setAI(ai) {
+  game.ai = ai
   window.clearInterval(updateTimer)
-  if (game.ai) {
+  if (ai) {
     updateTimer = window.setInterval(() => game.update(), 25)
     toggleAIButton.textContent = 'Human'
   } else {
     updateTimer = window.setInterval(() => game.update(), 100)
     toggleAIButton.textContent = 'AI'
+  }
+}
+
+setPathfinding(game.showPathfinding)
+setPaused(game.paused)
+setAI(game.ai)
+
+togglePathfindingButton.addEventListener('click', () => {
+  togglePathfindingButton.blur()
+  setPathfinding(!game.showPathfinding)
+})
+
+togglePlayPauseButton.addEventListener('click', () => {
+  togglePlayPauseButton.blur()
+  setPaused(!game.paused)
+})
+
+toggleAIButton.addEventListener('click', () => {
+  toggleAIButton.blur()
+  setAI(!game.ai)
+})
+
+document.addEventListener('keydown', event => {
+  if (event.key === ' ') {
+    setPaused(!game.paused)
+  }
+  if (event.key === 'h') {
+    setAI(!game.ai)
+  }
+  if (!game.ai) {
+    if (event.key === 'ArrowUp' || event.key === 'w') {
+      game.snake.queueTurn('north')
+    }
+    if (event.key === 'ArrowDown' || event.key === 's') {
+      game.snake.queueTurn('south')
+    }
+    if (event.key == 'ArrowRight' || event.key === 'd') {
+      game.snake.queueTurn('east')
+    }
+    if (event.key === 'ArrowLeft' || event.key === 'a') {
+      game.snake.queueTurn('west')
+    }
   }
 })

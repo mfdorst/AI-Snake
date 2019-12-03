@@ -16,7 +16,7 @@ export class Game {
     this.food = spawnFood(this.snake)
     this.paused = true
     this.ctx = ctx
-    this.ai = false
+    this.ai = true
     this.showPathfinding = false
     this.tryNotToDieStrategy = null
 

@@ -10,10 +10,10 @@ export class Snake {
      * @type {[Unit]}
      */
     this.body = [
-      new Unit(13, 15, 'east'),
-      new Unit(14, 15, 'east'),
-      new Unit(15, 15, 'east'),
-      new Unit(16, 15, 'east')
+      new Unit(23, 25, 'east'),
+      new Unit(24, 25, 'east'),
+      new Unit(25, 25, 'east'),
+      new Unit(26, 25, 'east')
     ]
     /**
      * @type {[String]}
