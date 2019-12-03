@@ -112,11 +112,4 @@ export class Snake {
       drawUnit(ctx, this.body[i], color)
     }
   }
-
-  drawUpdated(ctx) {
-    // Erase the tail by drawing it in background color
-    drawUnit(ctx, this.body[0], Util.backgroundColor)
-    // console.log(this.body, this.body[this.body.length - 1])
-    drawUnit(ctx, this.body[this.body.length - 1], color)
-  }
 }
