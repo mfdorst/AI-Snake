@@ -38,6 +38,8 @@ let updateTimer
 function setAI(ai) {
   game.ai = ai
   window.clearInterval(updateTimer)
+  // Get rid of any queued turns
+  game.snake.queuedTurns = []
   if (ai) {
     updateTimer = window.setInterval(() => game.update(), 25)
     toggleAIButton.textContent = 'Human'

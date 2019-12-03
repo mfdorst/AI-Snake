@@ -39,7 +39,7 @@ export class Game {
   update(override) {
     if (this.paused && !override) return
 
-    // Check if there will be a collision
+    // Check if there will be a wall collision
     const nextHead = this.snake.nextHead()
     if (nextHead.x >= boardSize || nextHead.x < 0 || nextHead.y >= boardSize || nextHead.y < 0) {
       this.gameOver()
@@ -47,7 +47,10 @@ export class Game {
     }
 
     // Check if there will be a snake collision
-    if (this.snake.body.slice(0, -1).some(unit => nextHead.x === unit.x && nextHead.y === unit.y)) {
+    if (this.snake.body.slice(1).some(unit => nextHead.x === unit.x && nextHead.y === unit.y)) {
+      console.log(this.snake.body)
+      console.log(this.snake.body.slice(1))
+      console.log(nextHead)
       this.gameOver()
       return
     }
@@ -111,5 +114,8 @@ function makeGrid(snake) {
   for (const { x, y } of snake.body) {
     grid[x][y].traversable = false
   }
+  // Tail will move next frame, so make it traversable
+  const { x, y } = snake.body[0]
+  grid[x][y].traversable = true
   return grid
 }

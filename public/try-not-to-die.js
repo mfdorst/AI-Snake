@@ -77,5 +77,6 @@ function canTurnRight(snake, grid) {
     x: dir === 'north' ? x + 1 : dir === 'south' ? x - 1 : x,
     y: dir === 'west' ? y + 1 : dir === 'east' ? y - 1 : y
   }
+  if (nextHead.x < 0 || nextHead.y < 0 || nextHead.x >= 50 || nextHead.y >= 50) return false
   return grid[nextHead.x][nextHead.y].traversable
 }
