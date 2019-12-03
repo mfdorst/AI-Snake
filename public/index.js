@@ -14,6 +14,7 @@ const game = new Game(
 const togglePathfindingButton = document.getElementById('toggle-pathfinding')
 const togglePlayPauseButton = document.getElementById('toggle-play-pause')
 const toggleAIButton = document.getElementById('toggle-ai')
+const nextFrameButton = document.getElementById('next-frame')
 
 function setPathfinding(showPathfinding) {
   game.showPathfinding = showPathfinding
@@ -25,8 +26,10 @@ function setPaused(paused) {
   game.paused = paused
   if (paused) {
     togglePlayPauseButton.textContent = 'Play'
+    nextFrameButton.disabled = false
   } else {
     togglePlayPauseButton.textContent = 'Pause'
+    nextFrameButton.disabled = true
   }
 }
 
@@ -63,12 +66,20 @@ toggleAIButton.addEventListener('click', () => {
   setAI(!game.ai)
 })
 
+nextFrameButton.addEventListener('click', () => {
+  nextFrameButton.blur()
+  game.update(true)
+})
+
 document.addEventListener('keydown', event => {
   if (event.key === ' ') {
     setPaused(!game.paused)
   }
   if (event.key === 'h') {
     setAI(!game.ai)
+  }
+  if (event.key === 'f' && game.paused) {
+    game.update(true)
   }
   if (!game.ai) {
     if (event.key === 'ArrowUp' || event.key === 'w') {

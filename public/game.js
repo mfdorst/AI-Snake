@@ -36,8 +36,8 @@ export class Game {
     this.snake.drawAll(ctx)
   }
 
-  update() {
-    if (this.paused) return
+  update(override) {
+    if (this.paused && !override) return
 
     // Check if there will be a collision
     const nextHead = this.snake.nextHead()
