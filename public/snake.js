@@ -107,7 +107,7 @@ export class Snake {
     return this.body.length
   }
 
-  drawAll(ctx) {
+  draw(ctx) {
     for (let i = 1; i < this.body.length; i++) {
       drawUnit(ctx, this.body[i], color)
     }

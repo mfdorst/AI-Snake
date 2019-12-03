@@ -33,7 +33,7 @@ export class Game {
       }
     } catch (ignore) {}
     drawUnit(ctx, this.food, foodColor)
-    this.snake.drawAll(ctx)
+    this.snake.draw(ctx)
   }
 
   update(override) {
@@ -74,7 +74,7 @@ export class Game {
       }
     } catch (e) {
       drawUnit(this.ctx, this.food, foodColor)
-      this.snake.drawAll(this.ctx)
+      this.snake.draw(this.ctx)
       if (this.ai) {
         if (!this.tryNotToDieStrategy) {
           this.tryNotToDieStrategy = new TryNotToDieStrategy()
@@ -84,7 +84,7 @@ export class Game {
     }
 
     drawUnit(this.ctx, this.food, foodColor)
-    this.snake.drawAll(this.ctx)
+    this.snake.draw(this.ctx)
     this.updateScore(this.snake.body.length - 4)
   }
 
